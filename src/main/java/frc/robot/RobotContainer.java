@@ -20,19 +20,22 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.WindochwytakLedSubsystem;
 import frc.robot.subsystems.WindochwytakSubsystem;
 import frc.robot.commands.WindochwytakCmd;
+import frc.robot.commands.WindochwytakLedCmd;
 
 public class RobotContainer {
 
-    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    private final WindochwytakSubsystem windochwytakSubsystem = new WindochwytakSubsystem();
+    //private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    //private final WindochwytakSubsystem windochwytakSubsystem = new WindochwytakSubsystem();
+    private final WindochwytakLedSubsystem windochwytakLedSubsystem = new WindochwytakLedSubsystem();
 
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick windochwytakJoystick = new Joystick(OIConstants.kWindochwytakControllerPort);
 
     public RobotContainer() {
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        /*swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
@@ -45,8 +48,16 @@ public class RobotContainer {
                 () -> windochwytakJoystick.getRawAxis(OIConstants.kLewyPrzod),
                 () -> windochwytakJoystick.getRawAxis(OIConstants.kPrawyPrzod),
                 () -> windochwytakJoystick.getRawButton(OIConstants.kLewyTyl),
-                () -> windochwytakJoystick.getRawButton(OIConstants.kPrawyTyl)
+                () -> windochwytakJoystick.getRawButton(OIConstants.kPrawyTyl)));*/
+        windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedCmd(
+                windochwytakLedSubsystem,
+                () -> windochwytakJoystick.getRawButton(2),
+                () -> windochwytakJoystick.getRawButton(3),
+                () -> windochwytakJoystick.getRawButton(1),
+                () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis)
         ));
+        windochwytakLedSubsystem.SetActiveLed(0, 255, 0);
+        
         configureButtonBindings();
     }
 
