@@ -8,31 +8,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.WindochwytakLedSubsystem;
 
 public class WindochwytakLedCmd extends CommandBase {
 
     private final WindochwytakLedSubsystem windochwytakLedSubsystem;
-    private final Supplier<Boolean> ledSwitchFunction;
-    private final Supplier<Boolean> ledStrobeFunction;
-    private final Supplier<Boolean> ledDriverFunction;
+    private final Supplier<Joystick> ledJoystick;
+    private boolean ledMasterButton = false;
+    private boolean ledSwitchButton = false;
+    private boolean ledStrobeButton = false;
+    private boolean ledDriverButton = false;
     private final Supplier<Double> ledDriverJoystick;
-    private boolean driverSwitch = false;
-    private boolean driverSwitchDebounce = false;
+    //private boolean driverSwitch = false;
+    //private boolean driverSwitchDebounce = false;
     private int strobeSpeed = 10;
     private int activeLedSpeed = 20;
     private int delta = 0;
 
     public WindochwytakLedCmd(WindochwytakLedSubsystem windochwytakLedSubsystem,
-            Supplier<Boolean> ledSwitchFunction,
-            Supplier<Boolean> ledStrobeFunction,
-            Supplier<Boolean> ledDriverFunction,
+            Supplier<Joystick> ledJoystick,
             Supplier<Double> ledDriverJoystick) {
 
         this.windochwytakLedSubsystem = windochwytakLedSubsystem;
-        this.ledSwitchFunction = ledSwitchFunction;
-        this.ledStrobeFunction = ledStrobeFunction;
-        this.ledDriverFunction = ledDriverFunction;
+        this.ledJoystick = ledJoystick;
         this.ledDriverJoystick = ledDriverJoystick;
 
         addRequirements(windochwytakLedSubsystem);
@@ -44,11 +43,27 @@ public class WindochwytakLedCmd extends CommandBase {
 
     @Override
     public void execute() {
-        if(ledSwitchFunction.get())
+        ledMasterButton =  ledJoystick.get().getRawButton(OIConstants.kLedMaster);
+        ledDriverButton = ledJoystick.get().getRawButton(OIConstants.kLedDriverSwitch);
+        ledStrobeButton = ledJoystick.get().getRawButton(OIConstants.kRedBlue);
+        
+        if(delta%activeLedSpeed < activeLedSpeed/2) // active led blinking
+            windochwytakLedSubsystem.SetActiveLed(255, 0, 0);
+        else
+            windochwytakLedSubsystem.SetActiveLed(0, 0, 0);
+        if(delta > 100) delta = 0; // delta
+        delta++;
+
+        if(!ledMasterButton) // led master switch
+            return;
+
+        // -----------------------------
+
+        if(ledSwitchButton)
             windochwytakLedSubsystem.SetLed(0, 0, 255);
-        else if(!ledStrobeFunction.get() && !ledSwitchFunction.get() && !driverSwitch)
+        else if(!ledStrobeButton && !ledSwitchButton && !ledDriverButton)
             windochwytakLedSubsystem.SetLed(255, 0, 255);
-        if(ledStrobeFunction.get()) {
+        if(ledStrobeButton) {
             if(delta % strobeSpeed < strobeSpeed/2) {
                 windochwytakLedSubsystem.SetLed(255, 0, 0);
             } else {
@@ -56,25 +71,19 @@ public class WindochwytakLedCmd extends CommandBase {
             }
         }
 
-        if(ledDriverFunction.get() == true && driverSwitchDebounce == false) {
-            driverSwitch = !driverSwitch;
-            driverSwitchDebounce = true;
-        } else if(ledDriverFunction.get() == false) {
-            driverSwitchDebounce = false;
-        }
-        SmartDashboard.putBoolean("driver", driverSwitch);
+        //if(ledDriverFunction == true && driverSwitchDebounce == false) {
+        //    driverSwitch = !driverSwitch;
+        //    driverSwitchDebounce = true;
+        //} else if(ledDriverFunction == false) {
+        //    driverSwitchDebounce = false;
+        //}
 
-        if(driverSwitch) {
+        if(ledDriverButton) {
             double joystick = Math.abs(ledDriverJoystick.get());
             windochwytakLedSubsystem.DriverMode(joystick);
         }
 
-        if(delta%activeLedSpeed < activeLedSpeed/2) // active led blinking
-            windochwytakLedSubsystem.SetActiveLed(255, 0, 0);
-        else
-            windochwytakLedSubsystem.SetActiveLed(0, 0, 0);
-        if(delta > 100) delta = 0; // delta
-        delta++;
+        
     }
 
     @Override

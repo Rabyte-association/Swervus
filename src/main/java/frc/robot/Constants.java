@@ -101,6 +101,7 @@ public final class Constants {
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
         public static final int kWindochwytakControllerPort = 1;
+        public static final int kLedJoystickPort = 2;
 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
@@ -113,6 +114,12 @@ public final class Constants {
         public static final int kLewyTyl = 5;
         public static final int kPrawyPrzod = 3;
         public static final int kPrawyTyl = 6;
+
+        public static final int kLedMaster = 3 ;
+        public static final int kLedDriverSwitch = 2;
+        public static final int kRedBlue = 4;
+        //public static final int kLedDriverSwitch = 2;
+
 
         public static final double kDeadbandDrive = 0.15;
         public static final double kDeadbandWindochwytak = 0.2;

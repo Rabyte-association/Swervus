@@ -27,15 +27,16 @@ import frc.robot.commands.WindochwytakLedCmd;
 
 public class RobotContainer {
 
-    //private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    //private final WindochwytakSubsystem windochwytakSubsystem = new WindochwytakSubsystem();
+    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    private final WindochwytakSubsystem windochwytakSubsystem = new WindochwytakSubsystem();
     private final WindochwytakLedSubsystem windochwytakLedSubsystem = new WindochwytakLedSubsystem();
 
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick windochwytakJoystick = new Joystick(OIConstants.kWindochwytakControllerPort);
+    private final Joystick ledJoystick = new Joystick(OIConstants.kLedJoystickPort);
 
     public RobotContainer() {
-        /*swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
@@ -43,17 +44,12 @@ public class RobotContainer {
                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         windochwytakSubsystem.setDefaultCommand(new WindochwytakCmd(
                 windochwytakSubsystem,
-                () -> windochwytakJoystick.getRawAxis(OIConstants.kWyciagarkaAxis),
-                () -> windochwytakJoystick.getRawAxis(OIConstants.kPrzodTylAxis),
-                () -> windochwytakJoystick.getRawAxis(OIConstants.kLewyPrzod),
-                () -> windochwytakJoystick.getRawAxis(OIConstants.kPrawyPrzod),
-                () -> windochwytakJoystick.getRawButton(OIConstants.kLewyTyl),
-                () -> windochwytakJoystick.getRawButton(OIConstants.kPrawyTyl)));*/
+                () -> driverJoytick,
+                () -> windochwytakJoystick
+        ));
         windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedCmd(
                 windochwytakLedSubsystem,
-                () -> windochwytakJoystick.getRawButton(2),
-                () -> windochwytakJoystick.getRawButton(3),
-                () -> windochwytakJoystick.getRawButton(1),
+                () -> ledJoystick,
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis)
         ));
         windochwytakLedSubsystem.SetActiveLed(0, 255, 0);
