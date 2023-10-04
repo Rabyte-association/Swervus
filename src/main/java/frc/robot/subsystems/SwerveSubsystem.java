@@ -38,7 +38,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
             DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
-
+    */
     private final SwerveModule backRight = new SwerveModule(
             DriveConstants.kBackRightDriveMotorPort,
             DriveConstants.kBackRightTurningMotorPort,
@@ -46,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightTurningEncoderReversed,
             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-            DriveConstants.kBackRightDriveAbsoluteEncoderReversed);*/
+            DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     //private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
@@ -95,15 +95,15 @@ public class SwerveSubsystem extends SubsystemBase {
     public void stopModules() {
         frontLeft.stop();
         /*frontRight.stop();
-        backLeft.stop();
-        backRight.stop();*/
+        backLeft.stop();*/
+        backRight.stop();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
         /*frontRight.setDesiredState(desiredStates[1]);
-        backLeft.setDesiredState(desiredStates[2]);
-        backRight.setDesiredState(desiredStates[3]);*/
+        backLeft.setDesiredState(desiredStates[2]);*/
+        backRight.setDesiredState(desiredStates[3]);
     }
 }

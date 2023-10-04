@@ -52,7 +52,7 @@ public class RobotContainer {
                 () -> ledJoystick,
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis)
         ));
-        windochwytakLedSubsystem.SetActiveLed(0, 255, 0);
+        windochwytakLedSubsystem.SetLed_RSL(0, 255, 0);
         
         configureButtonBindings();
     }

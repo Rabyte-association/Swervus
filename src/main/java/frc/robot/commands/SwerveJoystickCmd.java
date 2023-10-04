@@ -43,7 +43,7 @@ public class SwerveJoystickCmd extends CommandBase {
 
         // 2. Apply deadband
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadbandDrive ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadbandDrive ? ySpeed : 0.0;
+        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadbandDriveTurn ? ySpeed : 0.0;
         turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadbandDrive ? turningSpeed : 0.0;
 
         // 3. Make the driving smoother
