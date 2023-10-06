@@ -14,8 +14,8 @@ import frc.robot.Constants.OIConstants;
 public class WindochwytakLedSubsystem extends SubsystemBase {
 
     AddressableLED windochwytakLed = new AddressableLED(9);
-    AddressableLEDBuffer windochwytakLed_buffer = new AddressableLEDBuffer(55);
-    AddressableLEDBuffer driverLedMask = new AddressableLEDBuffer(55);
+    AddressableLEDBuffer windochwytakLed_buffer = new AddressableLEDBuffer(54);
+    AddressableLEDBuffer driverLedMask = new AddressableLEDBuffer(54);
     int RSL_LedLenght = 5;
     public double brightness = 1;
 
@@ -62,9 +62,9 @@ public class WindochwytakLedSubsystem extends SubsystemBase {
         }
         for(int i = 0; i < power*(driverLedMask.getLength()-RSL_LedLenght); i++) {
             windochwytakLed_buffer.setRGB(i, 
-            (int)(driverLedMask.getLED(i).red*brightness*2),
-            (int)(driverLedMask.getLED(i).green*brightness*2), 
-            (int)(driverLedMask.getLED(i).blue*brightness*2));
+            (int)(driverLedMask.getLED(i).red),
+            (int)(driverLedMask.getLED(i).green), 
+            (int)(driverLedMask.getLED(i).blue));
         }
         windochwytakLed.setData(windochwytakLed_buffer);
     }

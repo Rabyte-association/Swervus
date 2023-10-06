@@ -33,9 +33,14 @@ public class RobotContainer {
 
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick windochwytakJoystick = new Joystick(OIConstants.kWindochwytakControllerPort);
-    private final Joystick ledJoystick = new Joystick(OIConstants.kLedJoystickPort);
+    private Joystick ledJoystick;// = new Joystick(OIConstants.kLedJoystickPort);
 
     public RobotContainer() {
+        try {
+                ledJoystick = new Joystick(OIConstants.kLedJoystickPort);
+            } catch (Exception e) {
+                System.out.print(driverJoytick);
+            }
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
@@ -59,7 +64,9 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driverJoytick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
+        new JoystickButton(driverJoytick, 3).whenPressed(() -> swerveSubsystem.resetEncoders());
     }
+
 
     /*public Command getAutonomousCommand() {
         // 1. Create trajectory settings

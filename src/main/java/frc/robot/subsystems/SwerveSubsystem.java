@@ -51,7 +51,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     //private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private static final WPI_PigeonIMU gyro = new WPI_PigeonIMU(42);
+    //private static final WPI_PigeonIMU gyro = new WPI_PigeonIMU(42);
 
     public SwerveSubsystem() {
         new Thread(() -> {
@@ -64,17 +64,25 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        gyro.reset();
+        //gyro.reset();
     }
 
-    public double getHeading() {
-        SmartDashboard.putNumber("spierdalaj", gyro.getHandle());
-    return Math.IEEEremainder(gyro.getAngle(), 360);
-    }
+    //public double getHeading() {
+        //SmartDashboard.putNumber("spierdalaj", gyro.getYaw());
+        //double[] ypr = new double[3];
+    //return Math.IEEEremainder(gyro.getYaw(), 360);
+    //}
 
-    public Rotation2d getRotation2d() {
+    //public Rotation2d getRotation2d() {
         //return gyro.getRotation2d();
-        return Rotation2d.fromDegrees(gyro.getHandle());
+        //return Rotation2d.fromDegrees(getHeading());
+    //}
+
+    public void resetEncoders() {
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
     }
 
     /*public Pose2d getPose() {
@@ -91,7 +99,7 @@ public class SwerveSubsystem extends SubsystemBase {
         frontLeft.printEncoders();
         //odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(),
         //        backRight.getState());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        //SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }
 
