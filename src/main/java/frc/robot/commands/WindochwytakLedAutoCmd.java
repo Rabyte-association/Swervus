@@ -14,19 +14,18 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.WindochwytakLedSubsystem;
 
-public class WindochwytakLedCmd extends CommandBase {
+public class WindochwytakLedAutoCmd extends CommandBase {
 
     private final WindochwytakLedSubsystem windochwytakLedSubsystem;
-    private final Supplier<Joystick> ledJoystick;
     private boolean ledMasterButton = false;
     private boolean ledSwitchButton = false;
     private boolean ledStrobeButton = false;
     private boolean ledDriverButton = false;
     private boolean ledFastStrobeButton = false;
     private boolean windaButton = false;
-    private boolean windaButtonInverted = false;
     private boolean autoButton = false;
-    private final Supplier<Double> ledDriverJoystick;
+    private final Supplier<Joystick> ledDriverJoystick;
+    private final Supplier<Joystick> ledWindochwytakJoystick;
     //private boolean driverSwitch = false;
     //private boolean driverSwitchDebounce = false;
     private int strobeSpeed = 10;
@@ -38,13 +37,12 @@ public class WindochwytakLedCmd extends CommandBase {
     private int RSL_LedSpeed = 20;
     private int delta = 0;
 
-    public WindochwytakLedCmd(WindochwytakLedSubsystem windochwytakLedSubsystem,
-            Supplier<Joystick> ledJoystick,
-            Supplier<Double> ledDriverJoystick) {
+    public WindochwytakLedAutoCmd(WindochwytakLedSubsystem windochwytakLedSubsystem,
+            Supplier<Joystick> ledDriverJoystick, Supplier<Joystick> ledWindochwytakJoystick) {
 
         this.windochwytakLedSubsystem = windochwytakLedSubsystem;
-        this.ledJoystick = ledJoystick;
         this.ledDriverJoystick = ledDriverJoystick;
+        this.ledWindochwytakJoystick = ledWindochwytakJoystick;
 
         addRequirements(windochwytakLedSubsystem);
     }
@@ -55,18 +53,6 @@ public class WindochwytakLedCmd extends CommandBase {
 
     @Override
     public void execute() {
-        ledMasterButton =  ledJoystick.get().getRawButton(OIConstants.kLedMaster);
-        ledDriverButton = ledJoystick.get().getRawButton(OIConstants.kLedDriverSwitch);
-        ledStrobeButton = ledJoystick.get().getRawButton(OIConstants.kRedBlue);
-        ledFastStrobeButton = ledJoystick.get().getRawButton(OIConstants.kStrobeButton);
-        windaButton = ledJoystick.get().getRawButton(9);
-        windaButtonInverted = ledJoystick.get().getRawButton(10);
-        autoButton = ledJoystick.get().getRawButton(8);
-
-        double brightnessAxis = -ledJoystick.get().getRawAxis(OIConstants.kLedBrighnessAxis); // brightness control
-        if(brightnessAxis > 0.5 && windochwytakLedSubsystem.brightness < 1) { windochwytakLedSubsystem.brightness += 0.01;} 
-        else if ( brightnessAxis < -0.5 && windochwytakLedSubsystem.brightness > 0) { windochwytakLedSubsystem.brightness -= 0.01; }
-
         if(delta%RSL_LedSpeed < RSL_LedSpeed/2) // rsl led blinking
             windochwytakLedSubsystem.SetLed_RSL(255, 0, 0);
         else
@@ -74,14 +60,11 @@ public class WindochwytakLedCmd extends CommandBase {
         if(delta > 100) delta = 0; // delta
         delta++;
 
-        if(!ledMasterButton) // led master switch
-            return;
-
         // -----------------------------
         int mode = 0;
         
-        if(ledDriverButton) mode = 1;
-        if(windaButton || windaButtonInverted) mode = 5;// || ledDriverJoystick.get().getPOV() == 0 || ledDriverJoystick.get().getPOV() == 180) mode = 5;
+        if(true) mode = 1; // driver mode
+        if(ledDriverJoystick.get().getPOV() == 0 && ledDriverJoystick.get().getPOV() == 180) mode = 5; //winda button
         if(ledStrobeButton) mode = 10;
         if(ledFastStrobeButton) mode = 11;
 
@@ -91,12 +74,12 @@ public class WindochwytakLedCmd extends CommandBase {
             windochwytakLedSubsystem.SetLed(0, 0, 0);
             break;
         case 1: // driver led
-            double joystick = Math.abs(ledDriverJoystick.get());
+            double joystick = Math.abs(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverXAxis));
             windochwytakLedSubsystem.DriverMode(joystick);
             break;
         case 5: // winda
             if(delta%2 == 0) {
-                windochwytakLedSubsystem.Winda(windaButtonInverted);
+                windochwytakLedSubsystem.Winda(ledDriverButton);
             }
             break;
         case 9: // blinker

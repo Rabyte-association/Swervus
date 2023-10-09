@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.List;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -23,6 +24,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WindochwytakLedSubsystem;
 import frc.robot.subsystems.WindochwytakSubsystem;
 import frc.robot.commands.WindochwytakCmd;
+import frc.robot.commands.WindochwytakLedAutoCmd;
 import frc.robot.commands.WindochwytakLedCmd;
 
 public class RobotContainer {
@@ -34,12 +36,15 @@ public class RobotContainer {
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick windochwytakJoystick = new Joystick(OIConstants.kWindochwytakControllerPort);
     private Joystick ledJoystick;// = new Joystick(OIConstants.kLedJoystickPort);
+    private boolean ledAuto = false;
 
     public RobotContainer() {
         try {
                 ledJoystick = new Joystick(OIConstants.kLedJoystickPort);
+                SmartDashboard.putNumber("kurwa", 0);
             } catch (Exception e) {
-                System.out.print(driverJoytick);
+                ledAuto = true;
+                SmartDashboard.putNumber("kurwa", 8);
             }
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
@@ -52,10 +57,17 @@ public class RobotContainer {
                 () -> driverJoytick,
                 () -> windochwytakJoystick
         ));
+        if(!ledAuto)
         windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedCmd(
                 windochwytakLedSubsystem,
                 () -> ledJoystick,
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis)
+        ));
+        else 
+        windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedAutoCmd(
+                windochwytakLedSubsystem, 
+                () ->  driverJoytick,
+                () -> windochwytakJoystick 
         ));
         windochwytakLedSubsystem.SetLed_RSL(0, 255, 0);
         

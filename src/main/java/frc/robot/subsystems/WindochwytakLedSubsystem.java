@@ -69,6 +69,35 @@ public class WindochwytakLedSubsystem extends SubsystemBase {
         windochwytakLed.setData(windochwytakLed_buffer);
     }
 
+    private int winda_center[] = {10, 25, 43};
+    private int winda_steps = 5;
+    public void Winda(boolean isInverted) {
+        for(int i = 0; i < windochwytakLed_buffer.getLength()-RSL_LedLenght; i++) { windochwytakLed_buffer.setRGB(i, 0,0,0); }
+        for(int j = 0; j < winda_center.length; j++) {
+            for(int i = 0; i < windochwytakLed_buffer.getLength()-RSL_LedLenght; i++) {
+                int absolute = 0;
+                if(winda_center[j] - i > 0) absolute = winda_center[j] - i;
+                if(winda_center[j] - i < 0) absolute = i - winda_center[j];
+                
+                if(absolute <= winda_steps) {
+                    double current_brightness = (double)((double)(winda_steps - absolute) / (double)winda_steps);
+                    //if(current_brightness != 1) current_brightness *= 0.1;
+                    windochwytakLed_buffer.setRGB(i, (int)((double)255*(double)current_brightness*current_brightness), (int)((double)80*(double)current_brightness*current_brightness), 0);
+                    SmartDashboard.putNumber("jaaapierdoleee", windochwytakLed_buffer.getLED(i).red);
+                }
+                
+            }
+            winda_center[j] = winda_center[j] + 1*(isInverted?-1:1);
+            if(winda_center[j] >= windochwytakLed_buffer.getLength()-RSL_LedLenght) winda_center[j] = 0;
+            if(winda_center[j] < 0) winda_center[j] = windochwytakLed_buffer.getLength() - RSL_LedLenght;
+        }
+        windochwytakLed.setData(windochwytakLed_buffer);                
+    }
+
+    public void PrzodTyl(boolean isInverted) {
+
+    }
+
     @Override
     public void periodic() {
     }
