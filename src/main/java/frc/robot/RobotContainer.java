@@ -24,7 +24,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WindochwytakLedSubsystem;
 import frc.robot.subsystems.WindochwytakSubsystem;
 import frc.robot.commands.WindochwytakCmd;
-import frc.robot.commands.WindochwytakLedAutoCmd;
+
 import frc.robot.commands.WindochwytakLedCmd;
 
 public class RobotContainer {
@@ -61,15 +61,11 @@ public class RobotContainer {
         windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedCmd(
                 windochwytakLedSubsystem,
                 () -> ledJoystick,
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis)
+                () -> driverJoytick,
+                () -> windochwytakJoystick
         ));
-        else 
-        windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedAutoCmd(
-                windochwytakLedSubsystem, 
-                () ->  driverJoytick,
-                () -> windochwytakJoystick 
-        ));
-        windochwytakLedSubsystem.SetLed_RSL(0, 255, 0);
+        windochwytakLedSubsystem.left.SetLed_RSL(0, 255, 0);
+        windochwytakLedSubsystem.right.SetLed_RSL(0, 255, 0);
         
         configureButtonBindings();
     }
