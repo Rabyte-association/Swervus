@@ -35,17 +35,9 @@ public class RobotContainer {
 
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick windochwytakJoystick = new Joystick(OIConstants.kWindochwytakControllerPort);
-    private Joystick ledJoystick;// = new Joystick(OIConstants.kLedJoystickPort);
-    private boolean ledAuto = false;
 
     public RobotContainer() {
-        try {
-                ledJoystick = new Joystick(OIConstants.kLedJoystickPort);
-                SmartDashboard.putNumber("kurwa", 0);
-            } catch (Exception e) {
-                ledAuto = true;
-                SmartDashboard.putNumber("kurwa", 8);
-            }
+
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
@@ -57,10 +49,9 @@ public class RobotContainer {
                 () -> driverJoytick,
                 () -> windochwytakJoystick
         ));
-        if(!ledAuto)
+        if(true)
         windochwytakLedSubsystem.setDefaultCommand(new WindochwytakLedCmd(
                 windochwytakLedSubsystem,
-                () -> ledJoystick,
                 () -> driverJoytick,
                 () -> windochwytakJoystick
         ));

@@ -19,7 +19,6 @@ public class WindochwytakLedCmd extends CommandBase {
 
     private final WindochwytakLedSubsystem windochwytakLedSubsystem;
 
-    private final Supplier<Joystick> ledJoystick;
     private boolean ledMasterButton = false;
     private boolean ledSwitchButton = false;
     private boolean ledStrobeButton = false;
@@ -42,12 +41,10 @@ public class WindochwytakLedCmd extends CommandBase {
     private int delta = 0;
 
     public WindochwytakLedCmd(WindochwytakLedSubsystem windochwytakLedSubsystem,
-            Supplier<Joystick> ledJoystick,
             Supplier<Joystick> ledDriverJoystick,
             Supplier<Joystick> windochwytakJoystick) {
 
         this.windochwytakLedSubsystem = windochwytakLedSubsystem;
-        this.ledJoystick = ledJoystick;
         this.ledDriverJoystick = ledDriverJoystick;
         this.windochwytakJoystick = windochwytakJoystick;
 
@@ -70,41 +67,20 @@ public class WindochwytakLedCmd extends CommandBase {
 
     @Override
     public void execute() {
-        ledMasterButton =  ledJoystick.get().getRawButton(OIConstants.kLedMaster);
-        ledDriverButton = ledJoystick.get().getRawButton(OIConstants.kLedDriverSwitch);
-        ledStrobeButton = ledJoystick.get().getRawButton(OIConstants.kRedBlue);
-        ledFastStrobeButton = ledJoystick.get().getRawButton(OIConstants.kStrobeButton);
-        windaButton = ledJoystick.get().getRawButton(9);
-        windaButtonInverted = ledJoystick.get().getRawButton(10);
-        autoButton = ledJoystick.get().getRawButton(8);
 
-        double brightnessAxis = -ledJoystick.get().getRawAxis(OIConstants.kLedBrighnessAxis); // brightness control
-        if(brightnessAxis > 0.5 && windochwytakLedSubsystem.left.brightness < 1) { windochwytakLedSubsystem.setBrightness(windochwytakLedSubsystem.left.brightness+=0.01); } 
-        else if ( brightnessAxis < -0.5 && windochwytakLedSubsystem.left.brightness > 0) { windochwytakLedSubsystem.setBrightness(windochwytakLedSubsystem.left.brightness-=0.01); }
+
 
         RSL(windochwytakLedSubsystem, delta);
         
         if(delta > 100) delta = 0; // delta
         delta++;
 
-        if(!ledMasterButton) // led master switch
-            return;
+
 
         // -----------------------------
-        int mode = 0;
         
-        if(!autoButton) {
-            if(ledDriverButton) {SetMode(windochwytakLedSubsystem.left, 1, delta); SetMode(windochwytakLedSubsystem.right, 1, delta);}
-            else if(windaButton) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
-            else if(windaButtonInverted) {SetMode(windochwytakLedSubsystem.left, 6, delta); SetMode(windochwytakLedSubsystem.right, 6, delta);}
-            else if(ledStrobeButton) {SetMode(windochwytakLedSubsystem.left, 10, delta); SetMode(windochwytakLedSubsystem.right, 10, delta);}
-            else if(ledFastStrobeButton) {SetMode(windochwytakLedSubsystem.left, 11, delta); SetMode(windochwytakLedSubsystem.right, 11, delta);}
-            else if(ledJoystick.get().getPOV() == 0 || ledJoystick.get().getPOV() == 45 || ledJoystick.get().getPOV() == 315) {SetMode(windochwytakLedSubsystem.left, 2, delta); SetMode(windochwytakLedSubsystem.right, 2, delta);}
-            else if(ledJoystick.get().getPOV() == 90 || ledJoystick.get().getPOV() == 45 || ledJoystick.get().getPOV() == 135) {SetMode(windochwytakLedSubsystem.left, 9, delta);}
-            else if(ledJoystick.get().getPOV() == 270 || ledJoystick.get().getPOV() == 315 || ledJoystick.get().getPOV() == 225) {SetMode(windochwytakLedSubsystem.right, 9, delta);}
-            else{SetMode(windochwytakLedSubsystem.left, 0, delta); SetMode(windochwytakLedSubsystem.right, 0, delta);}
-        }
-        else {
+
+        if(true) {
             if(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverYAxis) > 2*OIConstants.kDeadbandDrive || ledDriverJoystick.get().getRawAxis(OIConstants.kDriverYAxis) < -2*OIConstants.kDeadbandDrive){
                 SetMode(windochwytakLedSubsystem.left, 1, delta); SetMode(windochwytakLedSubsystem.right, 1, delta);}
             else if(ledDriverJoystick.get().getPOV() == 0 || windochwytakJoystick.get().getRawAxis(OIConstants.kWyciagarkaAxis) < -(OIConstants.kDeadbandWindochwytak)) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
