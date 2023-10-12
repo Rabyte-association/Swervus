@@ -95,15 +95,23 @@ public class WindochwytakLedCmd extends CommandBase {
         
         if(!autoButton) {
             if(ledDriverButton) {SetMode(windochwytakLedSubsystem.left, 1, delta); SetMode(windochwytakLedSubsystem.right, 1, delta);}
-            if(windaButton) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
-            if(windaButtonInverted) {SetMode(windochwytakLedSubsystem.left, 6, delta); SetMode(windochwytakLedSubsystem.right, 6, delta);}
-            if(ledStrobeButton) {SetMode(windochwytakLedSubsystem.left, 10, delta); SetMode(windochwytakLedSubsystem.right, 10, delta);}
-            if(ledFastStrobeButton) {SetMode(windochwytakLedSubsystem.left, 11, delta); SetMode(windochwytakLedSubsystem.right, 11, delta);}
+            else if(windaButton) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
+            else if(windaButtonInverted) {SetMode(windochwytakLedSubsystem.left, 6, delta); SetMode(windochwytakLedSubsystem.right, 6, delta);}
+            else if(ledStrobeButton) {SetMode(windochwytakLedSubsystem.left, 10, delta); SetMode(windochwytakLedSubsystem.right, 10, delta);}
+            else if(ledFastStrobeButton) {SetMode(windochwytakLedSubsystem.left, 11, delta); SetMode(windochwytakLedSubsystem.right, 11, delta);}
+            else if(ledJoystick.get().getPOV() == 0 || ledJoystick.get().getPOV() == 45 || ledJoystick.get().getPOV() == 315) {SetMode(windochwytakLedSubsystem.left, 2, delta); SetMode(windochwytakLedSubsystem.right, 2, delta);}
+            else if(ledJoystick.get().getPOV() == 90 || ledJoystick.get().getPOV() == 45 || ledJoystick.get().getPOV() == 135) {SetMode(windochwytakLedSubsystem.left, 9, delta);}
+            else if(ledJoystick.get().getPOV() == 270 || ledJoystick.get().getPOV() == 315 || ledJoystick.get().getPOV() == 225) {SetMode(windochwytakLedSubsystem.right, 9, delta);}
+            else{SetMode(windochwytakLedSubsystem.left, 0, delta); SetMode(windochwytakLedSubsystem.right, 0, delta);}
         }
         else {
-            mode = 1;
-            if(ledDriverJoystick.get().getPOV() == 0) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
-            if(ledDriverJoystick.get().getPOV() == 180) {SetMode(windochwytakLedSubsystem.left, 6, delta); SetMode(windochwytakLedSubsystem.right, 6, delta);}
+            if(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverYAxis) > 2*OIConstants.kDeadbandDrive || ledDriverJoystick.get().getRawAxis(OIConstants.kDriverYAxis) < -2*OIConstants.kDeadbandDrive){
+                SetMode(windochwytakLedSubsystem.left, 1, delta); SetMode(windochwytakLedSubsystem.right, 1, delta);}
+            else if(ledDriverJoystick.get().getPOV() == 0 || windochwytakJoystick.get().getRawAxis(OIConstants.kWyciagarkaAxis) < -(OIConstants.kDeadbandWindochwytak)) {SetMode(windochwytakLedSubsystem.left, 5, delta); SetMode(windochwytakLedSubsystem.right, 5, delta);}
+            else if(ledDriverJoystick.get().getPOV() == 180 || windochwytakJoystick.get().getRawAxis(OIConstants.kWyciagarkaAxis) > (OIConstants.kDeadbandWindochwytak)) {SetMode(windochwytakLedSubsystem.left, 6, delta); SetMode(windochwytakLedSubsystem.right, 6, delta);}
+            else if(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverRotAxis) > OIConstants.kDeadbandDrive) {SetMode(windochwytakLedSubsystem.right, 9, delta);}
+            else if(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverRotAxis) < -OIConstants.kDeadbandDrive) {SetMode(windochwytakLedSubsystem.left, 9, delta);}
+            else {SetMode(windochwytakLedSubsystem.left, 2, delta); SetMode(windochwytakLedSubsystem.right, 2, delta);}
         }
 
         //if(ledDriverFunction == true && driverSwitchDebounce == false) {
@@ -122,6 +130,12 @@ public class WindochwytakLedCmd extends CommandBase {
         case 1: // driver led
             double joystick = Math.abs(ledDriverJoystick.get().getRawAxis(OIConstants.kDriverYAxis));
             windochwytakLedModule.DriverMode(joystick);
+            break;
+        case 2:
+            windochwytakLedModule.brightness = 0.2;
+            if(delta%5==0)
+                windochwytakLedModule.StaticMode();
+            windochwytakLedModule.brightness = 1;
             break;
         case 5: // winda
             if(delta%2 == 0) {

@@ -67,10 +67,33 @@ public class WindochwytakLedModule {
         }
         for(int i = 0; i < power*(driverLedMask.getLength()-RSL_LedLenght); i++) {
             windochwytakLed_buffer.setRGB(i, 
-            (int)(driverLedMask.getLED(i).red),
-            (int)(driverLedMask.getLED(i).green), 
-            (int)(driverLedMask.getLED(i).blue));
+            (int)(255*driverLedMask.getLED(i).red),
+            (int)(255*driverLedMask.getLED(i).green), 
+            (int)(255*driverLedMask.getLED(i).blue));
         }
+        return windochwytakLed_buffer;
+    }
+
+    private int static_center = 0;
+    private int static_steps = 10;
+    public AddressableLEDBuffer StaticMode() {
+        for(int i = 0; i < windochwytakLed_buffer.getLength()-RSL_LedLenght; i++) {
+            windochwytakLed_buffer.setRGB(i, (int)(255*0), 0, (int)(150*0));
+        }
+        for(int i = 0; i < windochwytakLed_buffer.getLength()-RSL_LedLenght; i++) {
+            int absolute = 0;
+            if(static_center - i > 0) absolute = static_center - i;
+            if(static_center - i < 0) absolute = i - static_center;
+            
+            if(absolute <= static_steps) {
+                double current_brightness = (double)((double)(static_steps - absolute) / (double)static_steps) * brightness;
+                windochwytakLed_buffer.setRGB(i, (int)((double)255*(double)current_brightness*current_brightness),0, (int)((double)100*(double)current_brightness*current_brightness));
+            }
+            
+        }
+        static_center = static_center + 1;
+        if(static_center >= windochwytakLed_buffer.getLength()-RSL_LedLenght+5) static_center = 0;
+        if(static_center < 0) static_center = windochwytakLed_buffer.getLength() - RSL_LedLenght;
         return windochwytakLed_buffer;
     }
 
