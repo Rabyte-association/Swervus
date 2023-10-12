@@ -19,13 +19,13 @@ public class WindochwytakLedSubsystem extends SubsystemBase {
     private final AddressableLED windochwytakLed = new AddressableLED(8);
 
     public final WindochwytakLedModule left = new WindochwytakLedModule(50);
-    public final WindochwytakLedModule right = new WindochwytakLedModule(53);
+    public final WindochwytakLedModule right = new WindochwytakLedModule(54);
 
     public WindochwytakLedSubsystem() {
         windochwytakLed.setLength(left.getBuffer().getLength() + right.getBuffer().getLength());
         windochwytakLed.start();
         new Thread(() -> {}).start();
-    }
+    } // 8
 
     public void setBrightness(double brightness) {
         left.brightness = brightness;

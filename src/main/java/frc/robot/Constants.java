@@ -127,7 +127,7 @@ public final class Constants {
         public static final int kStrobeButton = 7;
 
 
-        public static final double kDeadbandDrive = 0.01;
+        public static final double kDeadbandDrive = 0.05;
         public static final double kDeadbandDriveTurn = 0.03;
         public static final double kDeadbandWindochwytak = 0.2;
     }

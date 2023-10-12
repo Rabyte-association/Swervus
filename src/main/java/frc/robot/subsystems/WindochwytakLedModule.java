@@ -74,7 +74,7 @@ public class WindochwytakLedModule {
         return windochwytakLed_buffer;
     }
 
-    private int winda_center[] = {2, 20, 38};
+    private int winda_center[] = {0, 17, 34};
     private int winda_steps = 5;
     public AddressableLEDBuffer Winda(boolean isInverted) {
         for(int i = 0; i < windochwytakLed_buffer.getLength()-RSL_LedLenght; i++) { windochwytakLed_buffer.setRGB(i, 0,0,0); }
