@@ -76,9 +76,9 @@ public class SwerveModule {
     }
 
     public void printEncoders() {
-        SmartDashboard.putNumber("Drive", getDrivePosition());
+        SmartDashboard.putNumber("drive", getDrivePosition());
         SmartDashboard.putNumber("Turning", getTurningPosition());
-        SmartDashboard.putNumber("absolute", absoluteEncoder.getAbsPosition() * (absoluteEncoderReversed ? -1.0 : 1.0)
+        SmartDashboard.putNumber("absolute",getAbsoluteEncoderRad()
         );
         return;
     }

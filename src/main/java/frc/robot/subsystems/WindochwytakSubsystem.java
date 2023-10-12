@@ -21,6 +21,7 @@ public class WindochwytakSubsystem extends SubsystemBase {
         chwytakLewy.configContinuousCurrentLimit(1);
         chwytakPrawy.configContinuousCurrentLimit(1);
         przodtyl.configContinuousCurrentLimit(5);
+        wyciagarka.configContinuousCurrentLimit(10);
         new Thread(() -> {}).start();
     }
 
@@ -34,8 +35,8 @@ public class WindochwytakSubsystem extends SubsystemBase {
     public void moveWindochwytak(double wyciagarkaValue, double przodtylValue, double lewyValue, double prawyValue) {
         wyciagarka.set(wyciagarkaValue);
         przodtyl.set(przodtylValue);
-        chwytakLewy.set(lewyValue);
-        chwytakPrawy.set(prawyValue);
+        chwytakLewy.set(-lewyValue);
+        chwytakPrawy.set(-prawyValue);
     }
 
     @Override
