@@ -53,11 +53,11 @@ public class SwerveJoystickCmd extends CommandBase {
                 * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         // 4. Construct desired chassis speeds
-        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+        ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
-            //chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            //        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
         } else {
             // Relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);

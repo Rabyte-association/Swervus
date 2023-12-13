@@ -10,6 +10,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OIConstants;
+
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 
@@ -51,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     //private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    //private static final WPI_PigeonIMU gyro = new WPI_PigeonIMU(42);
+    private static final WPI_PigeonIMU gyro = new WPI_PigeonIMU(OIConstants.kGyroCANID);
 
     public SwerveSubsystem() {
         new Thread(() -> {
@@ -64,19 +66,30 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        //gyro.reset();
+        gyro.setYaw(0);
+    }
+    public void breakingON(){
+        frontLeft.startbraking();
+        frontRight.startbraking();
+        backLeft.startbraking();
+        backRight.startbraking();
+    }
+    public void breakingOFF(){
+        frontLeft.stopbraking();
+        frontRight.stopbraking();
+        backLeft.stopbraking();
+        backRight.stopbraking();
     }
 
-    //public double getHeading() {
-        //SmartDashboard.putNumber("spierdalaj", gyro.getYaw());
-        //double[] ypr = new double[3];
-    //return Math.IEEEremainder(gyro.getYaw(), 360);
-    //}
+    public double getHeading() {
+        SmartDashboard.putNumber("spierdalaj", Math.IEEEremainder(gyro.getYaw(), 360));
+        SmartDashboard.putNumber("spierdalaj z zyroskopu",gyro.getYaw());
+        return -Math.IEEEremainder(gyro.getYaw(), 360);
+    }
 
-    //public Rotation2d getRotation2d() {
-        //return gyro.getRotation2d();
-        //return Rotation2d.fromDegrees(getHeading());
-    //}
+    public Rotation2d getRotation2d() {
+        return Rotation2d.fromDegrees(getHeading());
+    }
 
     public void resetEncoders() {
         frontLeft.resetEncoders();
@@ -96,10 +109,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        frontRight.printEncoders();
+        frontLeft.printEncoders();
         //odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(),
         //        backRight.getState());
-        //SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading", getHeading());
+        frontLeft.printtemps();
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }
 
