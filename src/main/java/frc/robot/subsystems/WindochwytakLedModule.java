@@ -24,7 +24,7 @@ public class WindochwytakLedModule {
     private AddressableLEDBuffer windochwytakLed_buffer;
     private AddressableLEDBuffer driverLedMask;
     int RSL_LedLenght = 5;
-    public double brightness = 1;
+    public double brightness = 255;
 
     public WindochwytakLedModule(int size) {
         windochwytakLed_buffer = new AddressableLEDBuffer(size);
@@ -86,7 +86,7 @@ public class WindochwytakLedModule {
             if(static_center - i < 0) absolute = i - static_center;
             
             if(absolute <= static_steps) {
-                double current_brightness = (double)((double)(static_steps - absolute) / (double)static_steps) * brightness;
+                double current_brightness = 5*(double)((double)(static_steps - absolute) / (double)static_steps) * brightness;
                 windochwytakLed_buffer.setRGB(i, (int)((double)255*(double)current_brightness*current_brightness),0, (int)((double)100*(double)current_brightness*current_brightness));
             }
             
