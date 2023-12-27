@@ -77,7 +77,7 @@ public final class Constants {
         // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.13188;
         // public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 1.46324;
         // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 1.884;
-        public static final double kjakDzialaGit = 69;
+        public static final double kjakDzialaGit = 420;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 18;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =  2 * Math.PI;
