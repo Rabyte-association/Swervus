@@ -54,6 +54,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private static final WPI_PigeonIMU gyro = new WPI_PigeonIMU(OIConstants.kGyroCANID);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+    gyro.getRotation2d(), 
+    new SwerveModulePosition[] {
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()
+      });
 
     public SwerveSubsystem() {
         new Thread(() -> {
@@ -98,23 +106,25 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.resetEncoders();
     }
 
-    /*public Pose2d getPose() {
+    public Pose2d getPose() {
         return odometer.getPoseMeters();
     
-    }*/
+    }
 
-    /*public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(pose, getRotation2d());
-    }*/
+    public void resetOdometry(Pose2d pose) {
+        SwerveModulePosition positions[] = {frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(), backRight.getPosition()};
+
+        odometer.resetPosition(getRotation2d(), positions, pose);
+    }
 
     @Override
     public void periodic() {
         frontLeft.printEncoders();
-        //odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(),
-        //        backRight.getState());
+        SwerveModulePosition positions[] = {frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(), backRight.getPosition()};
+        odometer.update(getRotation2d(), positions);
         SmartDashboard.putNumber("Robot Heading", getHeading());
         frontLeft.printtemps();
-        //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }
 
     public void stopModules() {
