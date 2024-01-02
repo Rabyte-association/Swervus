@@ -30,7 +30,7 @@ public class SwerveModule {
     private final PIDController turningPidController;
 
     //private final AnalogInput absoluteEncoder;
-    private final CANandcoder absoluteEncoder;
+    private final Canandcoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
@@ -39,7 +39,7 @@ public class SwerveModule {
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new CANandcoder(absoluteEncoderId);
+        absoluteEncoder = new Canandcoder(absoluteEncoderId);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
