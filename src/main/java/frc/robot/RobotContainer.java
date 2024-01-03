@@ -25,6 +25,7 @@ import frc.robot.subsystems.WindochwytakLedSubsystem;
 import frc.robot.subsystems.WindochwytakSubsystem;
 import frc.robot.commands.WindochwytakCmd;
 
+
 import frc.robot.commands.WindochwytakLedCmd;
 
 public class RobotContainer {
@@ -77,14 +78,14 @@ public class RobotContainer {
                         .setKinematics(DriveConstants.kDriveKinematics);
 
         // 2. Generate trajectory
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+        /*Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
-                        new Translation2d(1, 0),
                         new Translation2d(1, 1),
-                        new Translation2d(-1, 0)),
+                        new Translation2d(2, 0),
+                        new Translation2d(3,1)),
                 new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                trajectoryConfig);
+                trajectoryConfig);*/
         SmartDashboard.putNumber("metryrx", swerveSubsystem.getPose().getX());
         SmartDashboard.putNumber("metryry", swerveSubsystem.getPose().getY());
 
@@ -98,7 +99,7 @@ public class RobotContainer {
 
         // 4. Construct command to follow trajectory
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
+                Robot.trajectory,
                 swerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
                 xController,
@@ -110,7 +111,7 @@ public class RobotContainer {
         
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(Robot.trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }
