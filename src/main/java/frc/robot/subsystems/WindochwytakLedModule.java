@@ -5,7 +5,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder;
 
 import java.io.Console;
 
-import com.reduxrobotics.sensors.canandcoder.CANandcoder;
+import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;

@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import java.io.Console;
 
-import com.reduxrobotics.sensors.canandcoder.CANandcoder;
+import com.reduxrobotics.sensors.canandcoder.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -30,7 +30,7 @@ public class SwerveModule {
     private final PIDController turningPidController;
 
     //private final AnalogInput absoluteEncoder;
-    private final CANandcoder absoluteEncoder;
+    private final Canandcoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
@@ -39,7 +39,7 @@ public class SwerveModule {
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new CANandcoder(absoluteEncoderId);
+        absoluteEncoder = new Canandcoder(absoluteEncoderId);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);

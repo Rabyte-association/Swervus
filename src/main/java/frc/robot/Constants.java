@@ -57,9 +57,9 @@ public final class Constants {
         public static final boolean kBackRightDriveEncoderReversed = false;
         public static final boolean kBackLeftDriveEncoderReversed = true;
 
-        public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
+        public static final int kFrontLeftDriveAbsoluteEncoderPort = 3;
         public static final int kFrontRightDriveAbsoluteEncoderPort = 12;
-        public static final int kBackRightDriveAbsoluteEncoderPort = 3;
+        public static final int kBackRightDriveAbsoluteEncoderPort = 9;
         public static final int kBackLeftDriveAbsoluteEncoderPort = 6;
 
         public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
@@ -79,13 +79,13 @@ public final class Constants {
         // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 1.884;
         public static final double kjakDzialaGit = 68;
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 18;
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =  2 * Math.PI;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 3.8;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2* 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond/2;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.5;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1;
     }
 
     public static final class AutoConstants {
