@@ -10,7 +10,7 @@ public final class Constants {
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = 0.095;
         public static final double kDriveMotorGearRatio = 1 / 7;
-        public static final double kTurningMotorGearRatio = 1 / 9.149   ;
+        public static final double kTurningMotorGearRatio = 7/64  ;
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
@@ -77,7 +77,6 @@ public final class Constants {
         // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.13188;
         // public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 1.46324;
         // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 1.884;
-        public static final double kjakDzialaGit = 68;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 3.8;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2* 2 * Math.PI;
@@ -89,13 +88,13 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 10;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
-                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond ;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 35;
-        public static final double kPYController =35;
+        public static final double kPXController = 0.1;
+        public static final double kPYController =0.1;
         public static final double kPThetaController = 3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
